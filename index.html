@@ -1,0 +1,395 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#0f172a">
+  <title>SleepTrack</title>
+
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display",
+                   "SF Pro Text", Arial, sans-serif;
+      background: #f5f7fb;
+      color: #111827;
+    }
+
+    .app {
+      max-width: 520px;
+      margin: auto;
+      padding: 24px 18px 40px;
+    }
+
+    .top {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 24px;
+    }
+
+    .small {
+      color: #6b7280;
+      font-size: 14px;
+      margin: 0 0 4px;
+    }
+
+    h1 {
+      margin: 0;
+      font-size: 32px;
+    }
+
+    .avatar {
+      width: 44px;
+      height: 44px;
+      border-radius: 50%;
+      background: #111827;
+      color: white;
+      display: grid;
+      place-items: center;
+      font-weight: 700;
+    }
+
+    .card {
+      background: white;
+      border-radius: 26px;
+      padding: 22px;
+      margin-bottom: 16px;
+      box-shadow: 0 8px 30px rgba(15, 23, 42, 0.06);
+    }
+
+    .sleep-main {
+      display: flex;
+      align-items: center;
+      gap: 24px;
+    }
+
+    .ring {
+      width: 125px;
+      height: 125px;
+      border-radius: 50%;
+      background: conic-gradient(#6366f1 0 88%, #e5e7eb 88% 100%);
+      display: grid;
+      place-items: center;
+      position: relative;
+      flex-shrink: 0;
+    }
+
+    .ring::after {
+      content: "";
+      position: absolute;
+      width: 94px;
+      height: 94px;
+      background: white;
+      border-radius: 50%;
+    }
+
+    .ring-text {
+      position: relative;
+      z-index: 1;
+      text-align: center;
+    }
+
+    .ring-text strong {
+      display: block;
+      font-size: 23px;
+    }
+
+    .ring-text span {
+      color: #6b7280;
+      font-size: 12px;
+    }
+
+    .good {
+      color: #4f46e5;
+      font-weight: 700;
+      font-size: 21px;
+      margin: 5px 0;
+    }
+
+    .stats {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+      margin-top: 20px;
+    }
+
+    .stat {
+      background: #f8fafc;
+      padding: 14px;
+      border-radius: 16px;
+    }
+
+    .stat span {
+      display: block;
+      color: #6b7280;
+      font-size: 12px;
+      margin-bottom: 4px;
+    }
+
+    .stat strong {
+      font-size: 20px;
+    }
+
+    .section-title {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 18px;
+    }
+
+    .section-title h2 {
+      margin: 0;
+      font-size: 19px;
+    }
+
+    .section-title span {
+      color: #6b7280;
+      font-size: 13px;
+    }
+
+    .chart {
+      height: 150px;
+      display: flex;
+      align-items: end;
+      justify-content: space-between;
+      gap: 9px;
+    }
+
+    .day {
+      height: 100%;
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      justify-content: end;
+      align-items: center;
+      gap: 7px;
+    }
+
+    .bar {
+      width: 100%;
+      max-width: 34px;
+      border-radius: 9px 9px 4px 4px;
+      background: #6366f1;
+    }
+
+    .day span {
+      font-size: 11px;
+      color: #6b7280;
+    }
+
+    .watch {
+      display: flex;
+      align-items: center;
+      gap: 15px;
+    }
+
+    .watch-icon {
+      width: 48px;
+      height: 48px;
+      border-radius: 15px;
+      background: #111827;
+      color: white;
+      display: grid;
+      place-items: center;
+      font-size: 23px;
+    }
+
+    .watch h3 {
+      margin: 0 0 4px;
+    }
+
+    .watch p {
+      margin: 0;
+      color: #6b7280;
+      font-size: 13px;
+    }
+
+    .button {
+      width: 100%;
+      border: 0;
+      border-radius: 16px;
+      padding: 15px;
+      background: #111827;
+      color: white;
+      font-size: 16px;
+      font-weight: 700;
+      cursor: pointer;
+    }
+
+    .button:active {
+      transform: scale(0.99);
+    }
+
+    @media (max-width: 380px) {
+      .sleep-main {
+        gap: 15px;
+      }
+
+      .ring {
+        width: 105px;
+        height: 105px;
+      }
+
+      .ring::after {
+        width: 79px;
+        height: 79px;
+      }
+
+      .ring-text strong {
+        font-size: 19px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <main class="app">
+
+    <header class="top">
+      <div>
+        <p class="small">Guten Morgen 👋</p>
+        <h1>SleepTrack</h1>
+      </div>
+
+      <div class="avatar">S</div>
+    </header>
+
+    <section class="card">
+
+      <p class="small">Dein Schlaf letzte Nacht</p>
+
+      <div class="sleep-main">
+
+        <div class="ring">
+          <div class="ring-text">
+            <strong>8h 12m</strong>
+            <span>Schlaf</span>
+          </div>
+        </div>
+
+        <div>
+          <p class="small">Schlafqualität</p>
+          <div class="good">Sehr gut</div>
+          <p class="small">Ziel: 8 Stunden</p>
+        </div>
+
+      </div>
+
+      <div class="stats">
+
+        <div class="stat">
+          <span>Schlafscore</span>
+          <strong>87/100</strong>
+        </div>
+
+        <div class="stat">
+          <span>Schlafenszeit</span>
+          <strong>23:04</strong>
+        </div>
+
+        <div class="stat">
+          <span>Aufgewacht</span>
+          <strong>07:16</strong>
+        </div>
+
+        <div class="stat">
+          <span>Ziel</span>
+          <strong>8:00 h</strong>
+        </div>
+
+      </div>
+
+    </section>
+
+    <section class="card">
+
+      <div class="section-title">
+        <h2>Diese Woche</h2>
+        <span>Ø 7h 42m</span>
+      </div>
+
+      <div class="chart">
+
+        <div class="day">
+          <div class="bar" style="height: 72%;"></div>
+          <span>Mo</span>
+        </div>
+
+        <div class="day">
+          <div class="bar" style="height: 82%;"></div>
+          <span>Di</span>
+        </div>
+
+        <div class="day">
+          <div class="bar" style="height: 90%;"></div>
+          <span>Mi</span>
+        </div>
+
+        <div class="day">
+          <div class="bar" style="height: 70%;"></div>
+          <span>Do</span>
+        </div>
+
+        <div class="day">
+          <div class="bar" style="height: 79%;"></div>
+          <span>Fr</span>
+        </div>
+
+        <div class="day">
+          <div class="bar" style="height: 86%;"></div>
+          <span>Sa</span>
+        </div>
+
+        <div class="day">
+          <div class="bar" style="height: 91%;"></div>
+          <span>So</span>
+        </div>
+
+      </div>
+
+    </section>
+
+    <section class="card">
+
+      <div class="section-title">
+        <h2>Apple Watch</h2>
+        <span>Nicht verbunden</span>
+      </div>
+
+      <div class="watch">
+
+        <div class="watch-icon">⌚</div>
+
+        <div>
+          <h3>Apple Health verbinden</h3>
+          <p>
+            Später können deine echten Schlafdaten automatisch übernommen werden.
+          </p>
+        </div>
+
+      </div>
+
+    </section>
+
+    <section class="card">
+
+      <div class="section-title">
+        <h2>Schlaf eintragen</h2>
+      </div>
+
+      <button class="button" onclick="alert('Diese Funktion bauen wir als Nächstes ein.')">
+        + Schlaf hinzufügen
+      </button>
+
+    </section>
+
+  </main>
+
+</body>
+</html>
